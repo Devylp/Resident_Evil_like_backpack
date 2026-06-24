@@ -8,4 +8,6 @@ struct Item {
 	int weight;
 	int len;
 	int wth;
+	int startX = -1;
+	int startY = -1;
 };
