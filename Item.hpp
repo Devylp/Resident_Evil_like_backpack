@@ -1,8 +1,8 @@
-#pragma once
+п»ї#pragma once
 #include <string>
 
 struct Item {
-	int ID; // уникальный идентификатор предмета
+	int ID; // СѓРЅРёРєР°Р»СЊРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РїСЂРµРґРјРµС‚Р°
 	std::string texturePath;
 	std::string NameItem;
 	int weight;
