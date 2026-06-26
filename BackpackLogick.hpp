@@ -91,7 +91,42 @@ public:
 		}
 	}
 
-	bool RotateItem(const Item& item) {
+	bool RotateItem(int x, int y) {
+		Item original;
+		bool found = false;
+
+		// 1. Ищем предмет
+		for (const auto& item : Items_vec) {
+			if (item.startX != -1 && (x >= item.startX && x < item.startX + item.wth) &&
+				(y >= item.startY && y < item.startY + item.len)) {
+				original = item;
+				found = true;
+				break;
+			}
+		}
+
+		// 1.1 Проверяем, что предмет возможно вращать или не был найден
+		if (!found) { return false; }
+
+		if (!original.rotatable) { return false; }
+
+		// 2. Вращаем предмет за счет обмена полей
+		Item rotated = original;
+		RemoveItem(original.startX, original.startY);
+
+		std::swap(rotated.wth, rotated.len);
+		
+		// 3. Проверяем, что при вращении предмет не вылез за границы рюкзака
+		if (CanPlaceItem(rotated, rotated.startX, rotated.startY)) {
+			AddItem(rotated, rotated.startX, rotated.startY);
+			return true;
+		}
+
+		else {
+			AddItem(original, original.startX, original.startY);
+			return false;
+		}
+
 
 	}
 
