@@ -19,6 +19,13 @@ public:
 	Length(length), Width(width), Capacity(capacity), grid(length, std::vector<bool>(width, false))
 		{}
 
+	// Получить размеры рюкзака
+	int GetWidth() const { return Width; }
+	int GetLength() const { return Length; }
+
+	// Получить список предметов (только для чтения)
+	const std::vector<Item>& GetItems() const { return Items_vec; }
+
 	bool AddItem(const Item& item, int x, int y) {
 
 		if (!CanPlaceItem(item, x, y)) { return false; }

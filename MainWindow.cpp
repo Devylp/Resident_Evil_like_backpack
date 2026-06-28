@@ -1,12 +1,52 @@
-#include "MainWindow.hpp"
-#include "BackpackLogick.hpp"   // Логика рюкзака (пока не используется, но скоро)
-#include "BackpackView.hpp"     // Графическая сцена рюкзака (пока закомментируем)
+п»ї#include "MainWindow.hpp"
+#include "BackpackLogick.hpp"
+#include "BackpackView.hpp"
+#include "Item.hpp"
+#include <QToolBar>
+#include <QPushButton>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
-    // Пока оставляем окно пустым.
-    // Завтра вставим сюда создание BackpackLogick и BackpackView.
-    setWindowTitle("Рюкзак");
-    resize(600, 500);           // Стартовый размер окна
+    setWindowTitle("Backpack");
+
+    auto* logic = new BackpackLogick(6, 5, 100);
+
+    Item sword;
+    sword.ID = 1;
+    sword.NameItem = "Sword";
+    sword.weight = 5;
+    sword.len = 2;
+    sword.wth = 1;
+    sword.rotatable = true;
+    logic->AddItem(sword, 0, 0);
+
+    Item shield;
+    shield.ID = 2;
+    shield.NameItem = "Shield";
+    shield.weight = 8;
+    shield.len = 2;
+    shield.wth = 2;
+    shield.rotatable = false;
+    logic->AddItem(shield, 2, 0);
+
+    auto* view = new BackpackView(logic, this);
+    setCentralWidget(view);
+
+    resize(view->sizeHint());
+
+    // ---------- Р’РѕС‚ Р·РґРµСЃСЊ СЂР°Р·РјРµС‰Р°РµС‚СЃСЏ РєРЅРѕРїРєР° ----------
+    QToolBar* toolbar = addToolBar("Tools");
+    QPushButton* sortBtn = new QPushButton("Auto Sort", this);
+    toolbar->addWidget(sortBtn);
+
+    // connect РїРѕРєР° Р·Р°РєРѕРјРјРµРЅС‚РёСЂСѓРµРј, С‚Р°Рє РєР°Рє СЃР»РѕС‚ РµС‰С‘ РЅРµ РѕР±СЉСЏРІР»РµРЅ
+    // connect(sortBtn, &QPushButton::clicked, this, &MainWindow::onAutoSort);
+}
+
+void MainWindow::onAutoSort()
+{
+    auto notPlaced = logic->AutoSortBackpack();   // РІС‹Р·С‹РІР°РµРј Р»РѕРіРёРєСѓ
+    view->UpdateView();                           // РѕР±РЅРѕРІР»СЏРµРј СЌРєСЂР°РЅ
+    // РџРѕР·Р¶Рµ РѕР±СЂР°Р±РѕС‚Р°РµРј notPlaced (РґРёР°Р»РѕРі СЃ РЅРµРїСЂРёРЅСЏС‚С‹РјРё РїСЂРµРґРјРµС‚Р°РјРё)
 }

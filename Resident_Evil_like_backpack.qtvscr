@@ -1,0 +1,462 @@
+<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" FontFamily="Segoe UI" FontSize="12">
+  <FlowDocument.Tag><![CDATA[{
+  "timestamp": "2026-06-28 20:11:11",
+  "files": {
+    "C:\\Users\\Mr_Dev\\source\\repos\\Resident_Evil_like_backpack\\Resident_Evil_like_backpack.vcxproj": {
+      "before": "7Vltb9s2EO7nAfsH+yAIGZx8iBXZhtslsorWTgNjzsvivABDgICSaJuLJAoilSZb9993kkhKsuO3pG2GwgESQOTxSB7vnufuEv7y5o31/iHwtXscM0LDjm7W93QNhy71SDju6Akf7b7T39s//2SdxfQv7HKth0co8fkFiseYs47+MSG+p2ugJYSvCefRvmEwd4IDxOoBcWPK6IjXXRoYHr7HPo1wbATMSZcZjb29pg7aNc3qcxwcxTSJtAFysN/RxYZdGo7IOIkRhwOyXBjEn5rV+qHrJx7u6D3sJOMv1yRsNuQKWFNRZWcyllEdTI+S/lhnPuIjGgd2psQy1HcuAQO5PZ5avuRw59jHiOElxxNSr3HA3HoP7dZLbQcqvonlFh1tZbuteTjLUB465bDZZ+pefpcGEfFx4YcfkXsXwe8VwZ/rbhSVDPrB80jq0sgXXtsjMcQXjQlmGnhVPtvRa1vbFR/b+bK1LZ1xp9bp1NRr1XS7u3/zB79p102zbt4E7N5t7DUat+3WDckj42CZACy/Jl4a2Qe/bi864o5lLJqWNjGUUeSIGiisFCASZtbRjAVSxyAFwejR3JJCdpVnEQYuNpTPMqBj4t7VJ/Aw5a3nymfPuFQ69ZPlOkvXKWmcuQ7ADAAmf6xA45FPHeQXYHjVFWh0leO4bb6t71nGzLDArt/x42caezm0pSstQw4JCaHuKCGe/Q9umY7jus3dd7+Z3m6r5bi7yGyi3XZjZDbbbRM5nvOvAsRsjVBzTik/QQFmEAPYPseMeDjkh/fE98kddkRwWEZVTizO35rlRCM9Xl1wL73gQpFUTXaqwn6Zd1n9IKIx18QdO/rW9lVX0NkZ4pOdm2PFWt0oqgvCq0fwEkz6SQrxhd5nxGtGKzVdkl0lxCVKVAnr4jHC9oco8ombceEUM2TTwnSXDGeoMCBOjFJAsXmcYMuYHRcLpHkvKPUZ5va92WoWyC1HhXB3gmLkchwPQfIyJJAsgO7K6FzbP99sFdb8foYbQZx9NctdT6iPwQTjGAWnEScB+Tt7SvE8c6df1fAlftl4a0bZK5Cy9FZIMja+ui5IrAnQVWDOF1fo8vCB4zCtbwCwONQ1gjiBazMmyGTL1FBZPAS0w14OyautkBg3nGDIo/Tnk4NMhmbtAUAep6QJOeM0XZWyw3oCYpK3SiklfiCMs23ILNfWU9tRlDWgLvKBj3qII8kfih5XMu1LDCUDTPDoxlSqRl5YIAgm2XhUOGMm6VEZZP9Q/iTjrIJraegfo7Q9o4I2LVwg2yVhxnK5dAk2VqxEpyJS1XvCpJCUX6M4BBgepO0gO/sLyWZlMHdTEB32Bt0Jdu9EhqQ+lcBZjAH/XcwYjYuzM/u6f9JsHNz2Dj9eHh3cdk9PhqeDQ6hp58hDOTtnpjh2mqNDRwiFLj6GlFccaXpURNhs4Tsg4V2hbJg4w0cGBrdBAYO00DKKIXW7Ixxi6Hzl2Xw/3z5tGoi9507LQ6g987qyMFCZ81746jJuvuq7f0pCN71o5h3pLcBfxKWfnFIW64c8JkD2rhSTtc8TE2qRcqu8TFKfSmCeb+RedrLxstyzv6GXlaoQic2vhCyvhikAhwMUjhM0xkOOQg9BC4dxD9qK5lvLmJlSzruwT7esIfi9O4ZwyeK8aY0M6Ggbf7r7t7du5Ccs/dXKrUkhU+lHynW5CaA3ITuz0nUULma9/gJ4fxQsruQw07dfj4Eljv7PkXiDwSK7WITB6zU+ef4vviI9LKpl2QhSlbXonz5dJqvesP0f",
+      "after": "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"
+    }
+  }
+}]]></FlowDocument.Tag>
+  <Section Margin="0,24" TextAlignment="Center">
+    <Paragraph FontSize="24" FontWeight="Bold" Margin="12,0">
+      <LineBreak />
+      <Span Foreground="Gray">Qt Visual Studio Tools</Span>
+    </Paragraph>
+    <Paragraph FontSize="42" Margin="12,0" FontWeight="Bold">
+      <Span TextDecorations="Underline">Project Format Conversion</Span>
+    </Paragraph>
+    <Paragraph Margin="12,8" FontSize="18">
+      <Span>Report generated on 2026-06-28 20:11:11</Span>
+    </Paragraph>
+  </Section>
+  <Section>
+    <Paragraph FontSize="32" FontWeight="Bold" Margin="12,0">
+      <Span>Files</Span>
+    </Paragraph>
+    <Paragraph Margin="24,12,0,0">
+      <Span FontFamily="Consolas" FontSize="14" Background="WhiteSmoke"><![CDATA[C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj]]></Span>
+      <LineBreak />
+      <Hyperlink NavigateUri="file://C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj?before">[Before]</Hyperlink>
+      <Hyperlink NavigateUri="file://C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj?after">[After]</Hyperlink>
+      <Hyperlink NavigateUri="file://C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj?diff&amp;before&amp;after">
+                        [Diff before/after]
+                    </Hyperlink>
+      <Hyperlink NavigateUri="file://C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj?diff&amp;before&amp;current">
+                        [Diff before/current]
+                    </Hyperlink>
+      <Hyperlink NavigateUri="file://C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj?diff&amp;after&amp;current">
+                        [Diff after/current]
+                    </Hyperlink>
+      <LineBreak />
+    </Paragraph>
+  </Section>
+  <Section>
+    <Paragraph FontSize="32" FontWeight="Bold" Margin="12,0">
+      <Span>Changes</Span>
+    </Paragraph>
+    <Paragraph FontSize="20" FontWeight="Bold" Margin="12">
+      <Span><![CDATA[🡺 Converting custom build steps to Qt/MSBuild items]]></Span>
+    </Paragraph>
+    <Table CellSpacing="0" BorderBrush="Gray" BorderThickness="0.5">
+      <Table.Columns>
+        <TableColumn />
+        <TableColumn />
+      </Table.Columns>
+      <TableRowGroup>
+        <TableRow Background="Orange">
+          <TableCell ColumnSpan="2" BorderThickness="0.5" BorderBrush="Gray">
+            <Paragraph Margin="10,5" FontWeight="Bold">
+              <Span><![CDATA[C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      ]]></Span><Span Background="LightCoral"><![CDATA[<AdditionalIncludeDirectories>C:\Qt\6]]></Span><Span><![CDATA[.11.1\msvc2022_64\include;C:\Qt\6.11.1\msvc2022_64\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>]]></Span>
+            </Paragraph>
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span><![CDATA[      ]]></Span><Span Background="LightGreen"><![CDATA[<AdditionalIncludeDirectories>GeneratedFiles\$(ConfigurationName);GeneratedFiles;C:\Qt\6]]></Span><Span><![CDATA[.11.1\msvc2022_64\include;C:\Qt\6.11.1\msvc2022_64\include\QtWidgets;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+      </TableRowGroup>
+    </Table>
+    <Paragraph FontSize="20" FontWeight="Bold" Margin="12">
+      <Span><![CDATA[🡺 Enabling multi-processor compilation]]></Span>
+    </Paragraph>
+    <Table CellSpacing="0" BorderBrush="Gray" BorderThickness="0.5">
+      <Table.Columns>
+        <TableColumn />
+        <TableColumn />
+      </Table.Columns>
+      <TableRowGroup>
+        <TableRow Background="Orange">
+          <TableCell ColumnSpan="2" BorderThickness="0.5" BorderBrush="Gray">
+            <Paragraph Margin="10,5" FontWeight="Bold">
+              <Span><![CDATA[C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[      <MultiProcessorCompilation>true</MultiProcessorCompilation>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[      <MultiProcessorCompilation>true</MultiProcessorCompilation>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[      <MultiProcessorCompilation>true</MultiProcessorCompilation>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[      <MultiProcessorCompilation>true</MultiProcessorCompilation>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+      </TableRowGroup>
+    </Table>
+    <Paragraph FontSize="20" FontWeight="Bold" Margin="12">
+      <Span><![CDATA[🡺 Project format version]]></Span>
+    </Paragraph>
+    <Table CellSpacing="0" BorderBrush="Gray" BorderThickness="0.5">
+      <Table.Columns>
+        <TableColumn />
+        <TableColumn />
+      </Table.Columns>
+      <TableRowGroup>
+        <TableRow Background="Orange">
+          <TableCell ColumnSpan="2" BorderThickness="0.5" BorderBrush="Gray">
+            <Paragraph Margin="10,5" FontWeight="Bold">
+              <Span><![CDATA[C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[    <Keyword>QtVS_v304</Keyword>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+      </TableRowGroup>
+    </Table>
+    <Paragraph FontSize="20" FontWeight="Bold" Margin="12">
+      <Span><![CDATA[🡺 Fallback for QTMSBUILD environment variable]]></Span>
+    </Paragraph>
+    <Table CellSpacing="0" BorderBrush="Gray" BorderThickness="0.5">
+      <Table.Columns>
+        <TableColumn />
+        <TableColumn />
+      </Table.Columns>
+      <TableRowGroup>
+        <TableRow Background="Orange">
+          <TableCell ColumnSpan="2" BorderThickness="0.5" BorderBrush="Gray">
+            <Paragraph Margin="10,5" FontWeight="Bold">
+              <Span><![CDATA[C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[    <QtMsBuild Condition="'$(QtMsBuild)'=='' OR !Exists('$(QtMsBuild)\qt.targets')">$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+      </TableRowGroup>
+    </Table>
+    <Paragraph FontSize="20" FontWeight="Bold" Margin="12">
+      <Span><![CDATA[🡺 Default Qt properties]]></Span>
+    </Paragraph>
+    <Table CellSpacing="0" BorderBrush="Gray" BorderThickness="0.5">
+      <Table.Columns>
+        <TableColumn />
+        <TableColumn />
+      </Table.Columns>
+      <TableRowGroup>
+        <TableRow Background="Orange">
+          <TableCell ColumnSpan="2" BorderThickness="0.5" BorderBrush="Gray">
+            <Paragraph Margin="10,5" FontWeight="Bold">
+              <Span><![CDATA[C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[  <Import Project="$(QtMsBuild)\qt_defaults.props" Condition="Exists('$(QtMsBuild)\qt_defaults.props')" />]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+      </TableRowGroup>
+    </Table>
+    <Paragraph FontSize="20" FontWeight="Bold" Margin="12">
+      <Span><![CDATA[🡺 Qt build settings]]></Span>
+    </Paragraph>
+    <Table CellSpacing="0" BorderBrush="Gray" BorderThickness="0.5">
+      <Table.Columns>
+        <TableColumn />
+        <TableColumn />
+      </Table.Columns>
+      <TableRowGroup>
+        <TableRow Background="Orange">
+          <TableCell ColumnSpan="2" BorderThickness="0.5" BorderBrush="Gray">
+            <Paragraph Margin="10,5" FontWeight="Bold">
+              <Span><![CDATA[C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+      </TableRowGroup>
+    </Table>
+    <Paragraph FontSize="20" FontWeight="Bold" Margin="12">
+      <Span><![CDATA[🡺 Warn if Qt/MSBuild is not found]]></Span>
+    </Paragraph>
+    <Table CellSpacing="0" BorderBrush="Gray" BorderThickness="0.5">
+      <Table.Columns>
+        <TableColumn />
+        <TableColumn />
+      </Table.Columns>
+      <TableRowGroup>
+        <TableRow Background="Orange">
+          <TableCell ColumnSpan="2" BorderThickness="0.5" BorderBrush="Gray">
+            <Paragraph Margin="10,5" FontWeight="Bold">
+              <Span><![CDATA[C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') OR !Exists('$(QtMsBuild)\Qt.props')">]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[  </Target>]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+      </TableRowGroup>
+    </Table>
+    <Paragraph FontSize="20" FontWeight="Bold" Margin="12">
+      <Span><![CDATA[🡺 Qt property sheet]]></Span>
+    </Paragraph>
+    <Table CellSpacing="0" BorderBrush="Gray" BorderThickness="0.5">
+      <Table.Columns>
+        <TableColumn />
+        <TableColumn />
+      </Table.Columns>
+      <TableRowGroup>
+        <TableRow Background="Orange">
+          <TableCell ColumnSpan="2" BorderThickness="0.5" BorderBrush="Gray">
+            <Paragraph Margin="10,5" FontWeight="Bold">
+              <Span><![CDATA[C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[    <Import Project="$(QtMsBuild)\Qt.props" />]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[    <Import Project="$(QtMsBuild)\Qt.props" />]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[    <Import Project="$(QtMsBuild)\Qt.props" />]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[    <Import Project="$(QtMsBuild)\Qt.props" />]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+      </TableRowGroup>
+    </Table>
+    <Paragraph FontSize="20" FontWeight="Bold" Margin="12">
+      <Span><![CDATA[🡺 Qt targets]]></Span>
+    </Paragraph>
+    <Table CellSpacing="0" BorderBrush="Gray" BorderThickness="0.5">
+      <Table.Columns>
+        <TableColumn />
+        <TableColumn />
+      </Table.Columns>
+      <TableRowGroup>
+        <TableRow Background="Orange">
+          <TableCell ColumnSpan="2" BorderThickness="0.5" BorderBrush="Gray">
+            <Paragraph Margin="10,5" FontWeight="Bold">
+              <Span><![CDATA[C:\Users\Mr_Dev\source\repos\Resident_Evil_like_backpack\Resident_Evil_like_backpack.vcxproj]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell ColumnSpan="2" Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="0.5" />
+        </TableRow>
+        <TableRow>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0" />
+          </TableCell>
+          <TableCell BorderThickness="0, 0, 0.5, 0" BorderBrush="Gray">
+            <Paragraph FontFamily="Consolas" Margin="4, 0">
+              <Span Background="LightGreen"><![CDATA[  <Import Project="$(QtMsBuild)\qt.targets" Condition="Exists('$(QtMsBuild)\qt.targets')" />]]></Span>
+            </Paragraph>
+          </TableCell>
+        </TableRow>
+      </TableRowGroup>
+    </Table>
+  </Section>
+  <Section>
+    <Paragraph />
+  </Section>
+</FlowDocument>
+<!--0ka2ZNd2V1SeRs2V8Fa31Iy/Wi0hCHmSTx9O8kEWKeg=-->
