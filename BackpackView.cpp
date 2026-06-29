@@ -32,60 +32,55 @@ public:
 
         // ВКЛЮЧАЕМ встроенную подвижность Qt
         setFlag(QGraphicsItem::ItemIsMovable);
-
         setFlag(QGraphicsItem::ItemIsFocusable);
     }
 
 protected:
-    bool isHeld = false;
+    // ЕДИНСТВЕННЫЙ mousePressEvent (объединили фокус и удаление)
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) override {
+        // УДАЛЕНИЕ ПРЕДМЕТА НА ПРАВЫЙ КЛИК
+        if (event->button() == Qt::RightButton) {
+            logic->RemoveItem(itemData.startX, itemData.startY);
+            parentView->UpdateView();
+            return;
+        }
+
+        // Для левого клика (перетаскивания) просто забираем фокус для клавиши R
+        setFocus();
+        QGraphicsRectItem::mousePressEvent(event);
+    }
 
     // Переопределяем событие отпускания мыши (Момент сброса предмета)
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override {
-        // Передаем событие базовому классу, чтобы Qt обновил внутренние координаты
         QGraphicsRectItem::mouseReleaseEvent(event);
 
-        // Получаем пиксельные координаты левого верхнего угла предмета на сцене
         qreal pixelX = this->scenePos().x();
         qreal pixelY = this->scenePos().y();
 
-        // Переводим пиксели обратно в индексы ячеек матрицы рюкзака
         int newGridX = std::round(pixelX / cellSize);
         int newGridY = std::round(pixelY / cellSize);
 
-        // Обращаемся к твоей родной бэкенд-логике перемещения
         bool success = logic->MoveItem(itemData.startX, itemData.startY, newGridX, newGridY);
 
         if (success) {
-            // Если MoveItem вернул true (ячейки свободны, перевеса нет), сохраняем новые координаты
             itemData.startX = newGridX;
             itemData.startY = newGridY;
         }
 
-        // Вызываем полную перерисовку. Если перемещение было запрещено логикой,
-        // UpdateView просто нарисует предмет на его старых валидных координатах (он отскочит назад).
         parentView->UpdateView();
     }
 
-    // 1. При клике на предмет принудительно забираем фокус клавиатуры на него
-    void mousePressEvent(QGraphicsSceneMouseEvent* event) override {
-        setFocus(); // Теперь этот предмет слушает клавиатуру
-        QGraphicsRectItem::mousePressEvent(event);
-    }
-
+    // Обработка клавиатуры (классический поворот лежащего предмета)
     void keyPressEvent(QKeyEvent* event) override {
         if (event->key() == Qt::Key_R) {
-            if (isHeld) {
-                // Предмет в руке 
-                std::swap(itemData.wth, itemData.len);
-                this->setRect(0, 0, itemData.wth * cellSize, itemData.len * cellSize);
+            bool success = logic->RotateItem(itemData.startX, itemData.startY);
+
+            if (success) {
+                parentView->UpdateView();
             }
-            else {
-                // Предмет лежит в рюкзаке.
-                bool success = logic->RotateItem(itemData.startX, itemData.startY);
-                if (success) {
-                    parentView->UpdateView();
-                }
-            }
+        }
+        else {
+            QGraphicsRectItem::keyPressEvent(event);
         }
     }
 };
@@ -108,11 +103,27 @@ BackpackView::BackpackView(BackpackLogick* logic, QWidget* parent)
 void BackpackView::drawBackground(QPainter* painter, const QRectF& rect)
 {
     QGraphicsView::drawBackground(painter, rect);
+
+    // 1. Отрисовка внутренней сетки (как у тебя и было)
     painter->setPen(QPen(Qt::gray, 1));
     for (int row = 0; row <= backpack->GetLength(); ++row)
         painter->drawLine(0, row * cellSize, backpack->GetWidth() * cellSize, row * cellSize);
     for (int col = 0; col <= backpack->GetWidth(); ++col)
         painter->drawLine(col * cellSize, 0, col * cellSize, backpack->GetLength() * cellSize);
+
+    // 2. ВИЗУАЛИЗАЦИЯ БАЛАНСА
+    // Проверяем твой метод IsBalance()
+    if (backpack->IsBalance()) {
+        // Баланс в норме (или рюкзак пуст) — рисуем нейтральную или зеленую рамку
+        painter->setPen(QPen(Qt::green, 3));
+    }
+    else {
+        // Перевес — привлекаем внимание красной рамкой
+        painter->setPen(QPen(Qt::red, 3));
+    }
+
+    // Отрисовываем контур вокруг всего рюкзака
+    painter->drawRect(0, 0, backpack->GetWidth() * cellSize, backpack->GetLength() * cellSize);
 }
 
 
