@@ -19,8 +19,8 @@ public:
 	Length(length), Width(width), Capacity(capacity), grid(length, std::vector<bool>(width, false))
 		{}
 
-	// Получить размеры рюкзака
 	int GetWidth() const { return Width; }
+
 	int GetLength() const { return Length; }
 
 	// Получить список предметов (только для чтения)
@@ -114,15 +114,13 @@ public:
 
 		// 1.1 Проверяем, что предмет возможно вращать или не был найден
 		if (!found) { return false; }
-
 		if (!original.rotatable) { return false; }
 
 		// 2. Вращаем предмет за счет обмена полей
 		Item rotated = original;
 		RemoveItem(original.startX, original.startY);
-
 		std::swap(rotated.wth, rotated.len);
-		
+
 		// 3. Проверяем, что при вращении предмет не вылез за границы рюкзака
 		if (CanPlaceItem(rotated, rotated.startX, rotated.startY)) {
 			AddItem(rotated, rotated.startX, rotated.startY);
@@ -133,8 +131,6 @@ public:
 			AddItem(original, original.startX, original.startY);
 			return false;
 		}
-
-
 	}
 
 	std::vector<Item> AutoSortBackpack() {
@@ -181,8 +177,6 @@ public:
 
 	bool CanPlaceItem(const Item& item, int x, int y) {
 
-		// Блок проверки на перевес
-		//-------------------------
 		int currentWeight = 0;
 		for (const auto& existingItem : Items_vec) {
 			currentWeight += existingItem.weight;
