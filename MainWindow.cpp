@@ -12,28 +12,37 @@
 #include <QMessageBox>
 #include <QCoreApplication>
 #include <QDir>
+#include <QVBoxLayout>
+#include <QWidget>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
     setWindowTitle("Backpack Inventory System");
 
-    // 1. Инициализируем логику базовыми значениями (на случай, если JSON не загрузится)
-    mainLogic = new BackpackLogick(6, 5, 100);
-    beltLogic = new BackpackLogick(4, 1, 15);
-    handsLogic = new BackpackLogick(2, 2, 20);
+    // 1. Инициализируем логику СТРОГО под размеры (Строки/Length, Колонки/Width, Вес)
+    mainLogic = new BackpackLogick(6, 5, 100);  // 6 строк, 5 колонок
+    beltLogic = new BackpackLogick(1, 4, 15);   // 1 строка, 4 колонки
+    handsLogic = new BackpackLogick(2, 2, 20);  // 2 строки, 2 колонки
 
-    // 2. Загружаем данные из JSON
+    // 2. Загружаем JSON
     QString exePath = QCoreApplication::applicationDirPath();
     QString configPath = exePath + QDir::separator() + "config.json";
     loadFromJson(configPath);
 
-    // 3. Создаем графическое отображение ТОЛЬКО для главного рюкзака (пока что)
-    mainView = new BackpackView(mainLogic, this);
-    setCentralWidget(mainView);
-    resize(mainView->sizeHint());
+    // 3. Создаем ОДНО единое представление
+    unifiedView = new BackpackView(mainLogic, beltLogic, handsLogic, this);
 
-    // 4. Панель инструментов
+    // 4. Компонуем окно
+    QWidget* centralWidget = new QWidget(this);
+    QVBoxLayout* layout = new QVBoxLayout(centralWidget);
+    layout->addWidget(unifiedView);
+
+    setCentralWidget(centralWidget);
+    centralWidget->adjustSize();
+    resize(centralWidget->sizeHint());
+
+    // 5. Панель инструментов
     QToolBar* toolbar = addToolBar("Tools");
     QPushButton* sortBtn = new QPushButton("Auto Sort Main", this);
     toolbar->addWidget(sortBtn);
@@ -45,11 +54,7 @@ void MainWindow::loadFromJson(const QString& filePath)
 {
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly)) {
-        qWarning() << "Could not open JSON file:" << filePath << "Using hardcoded fallback.";
-
-        // Фолбэк, если JSON не найден (как было раньше)
-        Item sword{ 1, "", "Sword", 5, 2, 1, -1, -1, true };
-        mainLogic->AddItem(sword, 0, 0);
+        qWarning() << "Could not open JSON file:" << filePath;
         return;
     }
 
@@ -57,18 +62,8 @@ void MainWindow::loadFromJson(const QString& filePath)
     QJsonDocument doc = QJsonDocument::fromJson(data);
     QJsonObject root = doc.object();
 
-    // Парсим параметры рюкзаков (опционально, можно расширить)
-    if (root.contains("backpacks")) {
-        QJsonObject bps = root["backpacks"].toObject();
-        // Здесь мы могли бы пересоздать mainLogic с новыми размерами из JSON
-        // Но для экономии времени оставим пока логику создания в конструкторе.
-    }
-
-    // Парсим предметы
-    if (root.contains("items")) {
-        QJsonArray itemsArray = root["items"].toArray();
-        int startX = 0; // Временная координата X для расстановки
-
+    auto parseContainer = [](const QJsonArray& itemsArray, BackpackLogick* targetLogic) {
+        int startX = 0;
         for (const auto& value : itemsArray) {
             QJsonObject obj = value.toObject();
 
@@ -81,19 +76,22 @@ void MainWindow::loadFromJson(const QString& filePath)
             item.texturePath = obj["texture"].toString().toStdString();
             item.rotatable = obj["rotatable"].toBool();
 
-            // Добавляем предметы в главный рюкзак друг за другом
-            if (mainLogic->CanPlaceItem(item, startX, 0)) {
-                mainLogic->AddItem(item, startX, 0);
+            if (targetLogic->CanPlaceItem(item, startX, 0)) {
+                targetLogic->AddItem(item, startX, 0);
                 startX += item.wth;
             }
         }
-    }
+        };
+
+    if (root.contains("backpack_items")) parseContainer(root["backpack_items"].toArray(), mainLogic);
+    if (root.contains("belt_items"))     parseContainer(root["belt_items"].toArray(), beltLogic);
+    if (root.contains("hands_items"))    parseContainer(root["hands_items"].toArray(), handsLogic);
 }
 
 void MainWindow::onAutoSort()
 {
     auto notPlaced = mainLogic->AutoSortBackpack();
-    mainView->UpdateView();
+    unifiedView->UpdateView();
 
     if (!notPlaced.empty()) {
         QMessageBox::warning(this, "Сортировка", "Не все предметы поместились в рюкзак!");

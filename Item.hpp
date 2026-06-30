@@ -10,5 +10,6 @@ struct Item {
 	int wth;
 	int startX = -1;
 	int startY = -1;
+	int rotation = 0; // 0 = 0°, 1 = 90°, 2 = 180°, 3 = 270°
 	bool rotatable = true;
 };

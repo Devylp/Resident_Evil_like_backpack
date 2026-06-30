@@ -102,7 +102,6 @@ public:
 		Item original;
 		bool found = false;
 
-		// 1. Ищем предмет
 		for (const auto& item : Items_vec) {
 			if (item.startX != -1 && (x >= item.startX && x < item.startX + item.wth) &&
 				(y >= item.startY && y < item.startY + item.len)) {
@@ -112,21 +111,21 @@ public:
 			}
 		}
 
-		// 1.1 Проверяем, что предмет возможно вращать или не был найден
-		if (!found) { return false; }
-		if (!original.rotatable) { return false; }
+		if (!found || !original.rotatable) { return false; }
 
-		// 2. Вращаем предмет за счет обмена полей
 		Item rotated = original;
 		RemoveItem(original.startX, original.startY);
+
+		// Увеличиваем фазу поворота циклично (0 -> 1 -> 2 -> 3 -> 0)
+		rotated.rotation = (rotated.rotation + 1) % 4;
+
+		// Меняем ширину и длину местами, т.к. шаг поворота всегда 90 градусов
 		std::swap(rotated.wth, rotated.len);
 
-		// 3. Проверяем, что при вращении предмет не вылез за границы рюкзака
 		if (CanPlaceItem(rotated, rotated.startX, rotated.startY)) {
 			AddItem(rotated, rotated.startX, rotated.startY);
 			return true;
 		}
-
 		else {
 			AddItem(original, original.startX, original.startY);
 			return false;
@@ -202,38 +201,46 @@ public:
 
 	}
 
-	bool IsBalance() {
-
-		// 1. Центр тяжести исходного рюкзака (считаем, что рюкзак однородный)
-		float c_x = Width / 2.0f;
-		float c_y = Length / 2.0f;
-		float newc_x;
-		float newc_y;
+	std::pair<float, float> GetCenterOfMass() const {
 		float sumx = 0.0f;
 		float sumy = 0.0f;
 		int total_mass = 0;
-		
-		// 2. Считаем новый центр тяжести с учетом новых предметов
+
+		// (2) считаем новый центр тяжести с учетом новых предметов
 		for (const auto& item : Items_vec) {
 			float item_center_x = item.startX + item.wth / 2.0f;
 			float item_center_y = item.startY + item.len / 2.0f;
-			
+
 			sumx += item_center_x * item.weight;
 			sumy += item_center_y * item.weight;
-
 			total_mass += item.weight;
 		}
 
-		if (total_mass == 0) { return true; }
+		if (total_mass == 0) {
+			// Если пустой — центр тяжести идеально по центру
+			return { Width / 2.0f, Length / 2.0f };
+		}
 
-		newc_x = sumx / total_mass;
-		newc_y = sumy / total_mass;
+		// Возвращаем новый центр масс
+		return { sumx / total_mass, sumy / total_mass };
+	}
 
-		// 3.На основе (1) и (2) вычисляем разницу:
-		// | (2) - (1) | < 0.1 (10 % - максимальна допустимая величина погрешности)
+	bool IsBalance() const {
+		auto [newc_x, newc_y] = GetCenterOfMass();
+		// (1) - исходный центр масс
+		// c_x = Width / 2.0f;
+		// c_y = Length / 2.0f;
+
+		// На основе (1) и (2) вычисляем разницу :
+		// |(2) - (1)| < 0.1 (10 % - максимальна допустимая величина погрешности)
 		// Интерпретируем выводы
-		return std::abs(newc_x - c_x) <= 0.1f*Width &&
-			   std::abs(newc_y - c_y) <= 0.1f*Length;
+		bool balanced = std::abs(newc_x - Width / 2.0f) <= 0.1f * Width &&
+			std::abs(newc_y - Length / 2.0f) <= 0.1f * Length;
+
+		// ОТЛАДКА:
+		qDebug() << "Balance result:" << balanced << "for logic at" << this;
+
+		return balanced;
 	}
 
 };

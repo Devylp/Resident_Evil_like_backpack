@@ -1,4 +1,4 @@
-#include "BackpackView.hpp"
+ï»¿#include "BackpackView.hpp"
 #include <QKeyEvent>
 #include <QPainter>
 #include <QGraphicsRectItem>
@@ -6,77 +6,118 @@
 #include <QBrush>
 #include <QGraphicsSceneMouseEvent>
 #include <cmath>
+#include <QCoreApplication>
+#include <QTimer>
 
 class InventoryItemGraphics : public QGraphicsRectItem {
 private:
-    Item itemData;                 // Äàííûå î ïðåäìåòå
-    int cellSize;                  // Ðàçìåð ÿ÷åéêè â ïèêñåëÿõ
-    BackpackLogick* logic;         // Ññûëêà íà áýêåíä ëîãèêè
-    BackpackView* parentView;      // Ññûëêà íà ïðåäñòàâëåíèå äëÿ îáíîâëåíèÿ ýêðàíà
+    Item itemData;
+    int cellSize;
+    BackpackLogick* sourceLogic; // ÐšÐ¾Ð½Ñ‚ÐµÐ¹Ð½ÐµÑ€, Ð¾Ñ‚ÐºÑƒÐ´Ð° Ð²Ð·ÑÑ‚ Ð¿Ñ€ÐµÐ´Ð¼ÐµÑ‚
+    BackpackView* parentView;
 
 public:
-    InventoryItemGraphics(const Item& item, int size, BackpackLogick* bl, BackpackView* view)
-        : itemData(item), cellSize(size), logic(bl), parentView(view)
+    InventoryItemGraphics(const Item& item, int size, BackpackLogick* sl, BackpackView* view, int regX, int regY)
+        : itemData(item), cellSize(size), sourceLogic(sl), parentView(view)
     {
-        // Îòðèñîâêà ãåîìåòðèè ïðÿìîóãîëüíèêà (îò íóëÿ äî ðàçìåðîâ ïðåäìåòà)
         setRect(0, 0, item.wth * cellSize, item.len * cellSize);
+        // ÐŸÐ¾Ð·Ð¸Ñ†Ð¸Ñ Ð½Ð° ÑÑ†ÐµÐ½Ðµ = ÑÐ¼ÐµÑ‰ÐµÐ½Ð¸Ðµ ÐºÐ¾Ð½Ñ‚ÐµÐ¹Ð½ÐµÑ€Ð° + Ð»Ð¾ÐºÐ°Ð»ÑŒÐ½Ñ‹Ðµ ÐºÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ñ‹ Ð¿Ñ€ÐµÐ´Ð¼ÐµÑ‚Ð°
+        setPos(regX + item.startX * cellSize, regY + item.startY * cellSize);
 
-        // Óñòàíîâêà ïîçèöèè íà ñöåíå â ïèêñåëÿõ
-        setPos(item.startX * cellSize, item.startY * cellSize);
+        QString exeDir = QCoreApplication::applicationDirPath();
+        QString fullTexturePath = exeDir + "/" + QString::fromStdString(item.texturePath);
+        QPixmap pixmap(fullTexturePath);
 
-        // Öâåòîâîå îôîðìëåíèå
-        QColor color = item.rotatable ? QColor(100, 150, 255, 200) : QColor(255, 100, 100, 200);
-        setBrush(QBrush(color));
-        setPen(QPen(Qt::black, 1));
+        if (!pixmap.isNull()) {
+            // 1. Ð¡Ð½Ð°Ñ‡Ð°Ð»Ð° Ð¿Ð¾Ð²Ð¾Ñ€Ð°Ñ‡Ð¸Ð²Ð°ÐµÐ¼ Ð˜Ð¡Ð¥ÐžÐ”ÐÐ£Ð® ÐºÐ°Ñ€Ñ‚Ð¸Ð½ÐºÑƒ Ð½Ð° Ð½ÑƒÐ¶Ð½Ñ‹Ð¹ ÑƒÐ³Ð¾Ð»
+            QTransform transform;
+            transform.rotate(item.rotation * 90);
+            QPixmap rotatedPixmap = pixmap.transformed(transform, Qt::SmoothTransformation);
+
+            // 2. Ð—Ð°Ñ‚ÐµÐ¼ Ð¼Ð°ÑÑˆÑ‚Ð°Ð±Ð¸Ñ€ÑƒÐµÐ¼ Ð£Ð–Ð• ÐŸÐžÐ’Ð•Ð ÐÐ£Ð¢Ð£Ð® ÐºÐ°Ñ€Ñ‚Ð¸Ð½ÐºÑƒ Ð¿Ð¾Ð´ Ñ‚ÐµÐºÑƒÑ‰Ð¸Ðµ width Ð¸ length Ð¿Ñ€ÐµÐ´Ð¼ÐµÑ‚Ð°
+            QPixmap scaledPixmap = rotatedPixmap.scaled(item.wth * cellSize, item.len * cellSize,
+                Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+            setBrush(QBrush(scaledPixmap));
+            setPen(QPen(Qt::transparent));
+        }
+        else {
+            // Ð”Ð»Ñ Ð·Ð°Ð³Ð»ÑƒÑˆÐµÐº Ð±ÐµÐ· Ñ‚ÐµÐºÑÑ‚ÑƒÑ€ Ð¼Ð¾Ð¶Ð½Ð¾ Ð²Ð¸Ð·ÑƒÐ°Ð»ÑŒÐ½Ð¾ Ð½Ð¸Ñ‡ÐµÐ³Ð¾ Ð½Ðµ ÐºÑ€ÑƒÑ‚Ð¸Ñ‚ÑŒ, Ð¿Ñ€Ð¾ÑÑ‚Ð¾ Ð¼ÐµÐ½ÑÑ‚ÑŒ Ñ€Ð°Ð·Ð¼ÐµÑ€
+            QColor color = item.rotatable ? QColor(100, 150, 255, 200) : QColor(255, 100, 100, 200);
+            setBrush(QBrush(color));
+            setPen(QPen(Qt::black, 1));
+        }
+
         setToolTip(QString::fromStdString(item.NameItem));
-
-        // ÂÊËÞ×ÀÅÌ âñòðîåííóþ ïîäâèæíîñòü Qt
         setFlag(QGraphicsItem::ItemIsMovable);
         setFlag(QGraphicsItem::ItemIsFocusable);
+        setFlag(QGraphicsItem::ItemSendsGeometryChanges);
+        setAcceptHoverEvents(false);
+        setAcceptedMouseButtons(Qt::LeftButton | Qt::RightButton);
+
+        setZValue(1); // ÐŸÑ€ÐµÐ´Ð¼ÐµÑ‚Ñ‹ Ð±ÑƒÐ´ÑƒÑ‚ Ð²ÑÐµÐ³Ð´Ð° Ð¿Ð¾Ð²ÐµÑ€Ñ… Ñ„Ð¾Ð½Ð°, Ð½Ð¾ Ð¿Ð¾Ð´ Ð²ÑÐ¿Ð»Ñ‹Ð²Ð°ÑŽÑ‰Ð¸Ð¼Ð¸ Ð¿Ð¾Ð´ÑÐºÐ°Ð·ÐºÐ°Ð¼Ð¸
     }
 
+    int GetItemID() const { return itemData.ID; }
+
 protected:
-    // ÅÄÈÍÑÒÂÅÍÍÛÉ mousePressEvent (îáúåäèíèëè ôîêóñ è óäàëåíèå)
     void mousePressEvent(QGraphicsSceneMouseEvent* event) override {
-        // ÓÄÀËÅÍÈÅ ÏÐÅÄÌÅÒÀ ÍÀ ÏÐÀÂÛÉ ÊËÈÊ
         if (event->button() == Qt::RightButton) {
-            logic->RemoveItem(itemData.startX, itemData.startY);
+            sourceLogic->RemoveItem(itemData.startX, itemData.startY);
             parentView->UpdateView();
             return;
         }
-
-        // Äëÿ ëåâîãî êëèêà (ïåðåòàñêèâàíèÿ) ïðîñòî çàáèðàåì ôîêóñ äëÿ êëàâèøè R
         setFocus();
         QGraphicsRectItem::mousePressEvent(event);
     }
 
-    // Ïåðåîïðåäåëÿåì ñîáûòèå îòïóñêàíèÿ ìûøè (Ìîìåíò ñáðîñà ïðåäìåòà)
     void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override {
         QGraphicsRectItem::mouseReleaseEvent(event);
 
-        qreal pixelX = this->scenePos().x();
-        qreal pixelY = this->scenePos().y();
+        qreal sceneX = this->scenePos().x();
+        qreal sceneY = this->scenePos().y();
 
-        int newGridX = std::round(pixelX / cellSize);
-        int newGridY = std::round(pixelY / cellSize);
+        BackpackLogick* targetLogic = nullptr;
+        int localGridX = -1;
+        int localGridY = -1;
 
-        bool success = logic->MoveItem(itemData.startX, itemData.startY, newGridX, newGridY);
+        for (const auto& reg : parentView->GetRegions()) {
+            qreal rMinX = reg.offsetX;
+            qreal rMaxX = reg.offsetX + reg.widthCells * cellSize;
+            qreal rMinY = reg.offsetY;
+            qreal rMaxY = reg.offsetY + reg.heightCells * cellSize;
 
-        if (success) {
-            itemData.startX = newGridX;
-            itemData.startY = newGridY;
+            if (sceneX >= rMinX - cellSize / 2.0 && sceneX < rMaxX &&
+                sceneY >= rMinY - cellSize / 2.0 && sceneY < rMaxY) {
+
+                localGridX = std::round((sceneX - reg.offsetX) / cellSize);
+                localGridY = std::round((sceneY - reg.offsetY) / cellSize);
+                targetLogic = reg.logic;
+                break;
+            }
         }
 
-        parentView->UpdateView();
+        if (targetLogic) {
+            if (targetLogic == sourceLogic) {
+                sourceLogic->MoveItem(itemData.startX, itemData.startY, localGridX, localGridY);
+            }
+            else {
+                if (targetLogic->CanPlaceItem(itemData, localGridX, localGridY)) {
+                    sourceLogic->RemoveItem(itemData.startX, itemData.startY);
+                    targetLogic->AddItem(itemData, localGridX, localGridY);
+                }
+            }
+        }
+
+        // Ð‘Ð•Ð—ÐžÐŸÐÐ¡ÐÐ«Ð™ Ð’Ð«Ð—ÐžÐ’ ÐžÐ‘ÐÐžÐ’Ð›Ð•ÐÐ˜Ð¯
+        QTimer::singleShot(0, parentView, &BackpackView::UpdateView);
     }
 
-    // Îáðàáîòêà êëàâèàòóðû (êëàññè÷åñêèé ïîâîðîò ëåæàùåãî ïðåäìåòà)
     void keyPressEvent(QKeyEvent* event) override {
         if (event->key() == Qt::Key_R) {
-            bool success = logic->RotateItem(itemData.startX, itemData.startY);
-
-            if (success) {
-                parentView->UpdateView();
+            if (sourceLogic->RotateItem(itemData.startX, itemData.startY)) {
+                // Ð—Ð´ÐµÑÑŒ Ñ‚Ð¾Ð¶Ðµ Ð±ÐµÐ·Ð¾Ð¿Ð°ÑÐ½Ñ‹Ð¹ Ð²Ñ‹Ð·Ð¾Ð²
+                QTimer::singleShot(0, parentView, &BackpackView::UpdateView);
             }
         }
         else {
@@ -85,59 +126,93 @@ protected:
     }
 };
 
-
-BackpackView::BackpackView(BackpackLogick* logic, QWidget* parent)
-    : QGraphicsView(parent), backpack(logic), cellSize(50)
+BackpackView::BackpackView(BackpackLogick* mainLog, BackpackLogick* beltLog, BackpackLogick* handsLog, QWidget* parent)
+    : QGraphicsView(parent), cellSize(50)
 {
     scene = new QGraphicsScene(this);
     setScene(scene);
-    scene->setSceneRect(0, 0, backpack->GetWidth() * cellSize, backpack->GetLength() * cellSize);
+
+    // Ð—Ð°Ð´Ð°ÐµÐ¼ Ñ„Ð¸ÐºÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½ÑƒÑŽ ÐºÐ°Ñ€Ñ‚Ñƒ ÑÐ¼ÐµÑ‰ÐµÐ½Ð¸Ð¹ Ð´Ð»Ñ ÐºÐ¾Ð¼Ð¿Ð°ÐºÑ‚Ð½Ð¾Ð³Ð¾ Ð¼Ð¾Ð½Ð¾Ð»Ð¸Ñ‚Ð½Ð¾Ð³Ð¾ Ð¸Ð½Ñ‚ÐµÑ€Ñ„ÐµÐ¹ÑÐ°
+    regions.append({ handsLog, "Ð’ Ð Ð£ÐšÐÐ¥", 40, 130, 2, 2, false });          // Ð¡Ð»ÐµÐ²Ð°
+    regions.append({ mainLog, "Ð˜ÐÐ’Ð•ÐÐ¢ÐÐ Ð¬", 180, 40, 5, 6, true });          // ÐŸÐ¾ Ñ†ÐµÐ½Ñ‚Ñ€Ñƒ (5Ñ…6)
+    regions.append({ beltLog, "ÐŸÐžÐ¯Ð¡ÐÐ«Ð• ÐŸÐžÐ”Ð¡Ð£ÐœÐšÐ˜", 205, 380, 4, 1, false }); // Ð¡Ð½Ð¸Ð·Ñƒ Ð³Ð¾Ñ€Ð¸Ð·Ð¾Ð½Ñ‚Ð°Ð»ÑŒÐ½Ð¾ (4Ñ…1)
+
+    scene->setSceneRect(0, 0, 480, 460);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setMinimumSize(backpack->GetWidth() * cellSize + 2, backpack->GetLength() * cellSize + 2);
-    setBackgroundBrush(Qt::white);
+    setMinimumSize(482, 462);
+    setBackgroundBrush(QColor(240, 240, 240)); // Ð›ÐµÐ³ÐºÐ¸Ð¹ Ð¸Ð³Ñ€Ð¾Ð²Ð¾Ð¹ ÑÐµÑ€Ñ‹Ð¹ Ñ„Ð¾Ð½
     UpdateView();
 }
 
-
 void BackpackView::drawBackground(QPainter* painter, const QRectF& rect)
 {
+    // 1. Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÑÐµÐ¼ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ Ñ€Ð¸ÑÐ¾Ð²Ð°Ð»ÑŒÑ‰Ð¸ÐºÐ° Ð¿ÐµÑ€ÐµÐ´ Ð½Ð°Ñ‡Ð°Ð»Ð¾Ð¼
+    painter->save();
+
+    // Ð Ð¸ÑÑƒÐµÐ¼ Ð±Ð°Ð·Ð¾Ð²Ñ‹Ð¹ Ñ„Ð¾Ð½ QGraphicsView
     QGraphicsView::drawBackground(painter, rect);
+    painter->setRenderHint(QPainter::Antialiasing);
 
-    // 1. Îòðèñîâêà âíóòðåííåé ñåòêè (êàê ó òåáÿ è áûëî)
-    painter->setPen(QPen(Qt::gray, 1));
-    for (int row = 0; row <= backpack->GetLength(); ++row)
-        painter->drawLine(0, row * cellSize, backpack->GetWidth() * cellSize, row * cellSize);
-    for (int col = 0; col <= backpack->GetWidth(); ++col)
-        painter->drawLine(col * cellSize, 0, col * cellSize, backpack->GetLength() * cellSize);
+    for (const auto& reg : regions)
+    {
+        // 2. Ð¡Ð±Ñ€Ð°ÑÑ‹Ð²Ð°ÐµÐ¼ Pen/Brush Ð´Ð»Ñ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ Ð±Ð»Ð¾ÐºÐ°, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ð½Ðµ "Ñ‚ÐµÐºÐ»Ð¸"
+        painter->setBrush(Qt::NoBrush);
 
-    // 2. ÂÈÇÓÀËÈÇÀÖÈß ÁÀËÀÍÑÀ
-    // Ïðîâåðÿåì òâîé ìåòîä IsBalance()
-    if (backpack->IsBalance()) {
-        // Áàëàíñ â íîðìå (èëè ðþêçàê ïóñò) — ðèñóåì íåéòðàëüíóþ èëè çåëåíóþ ðàìêó
-        painter->setPen(QPen(Qt::green, 3));
+        // Ð Ð¸ÑÑƒÐµÐ¼ ÑÐµÑ‚ÐºÑƒ
+        painter->setPen(QPen(QColor(100, 100, 100, 50), 1));
+        for (int i = 0; i <= reg.widthCells; ++i) {
+            painter->drawLine(reg.offsetX + i * cellSize, reg.offsetY,
+                reg.offsetX + i * cellSize, reg.offsetY + reg.heightCells * cellSize);
+        }
+        for (int j = 0; j <= reg.heightCells; ++j) {
+            painter->drawLine(reg.offsetX, reg.offsetY + j * cellSize,
+                reg.offsetX + reg.widthCells * cellSize, reg.offsetY + j * cellSize);
+        }
+
+        // 3. Ð Ð¸ÑÑƒÐµÐ¼ Ñ€Ð°Ð¼ÐºÑƒ
+        QColor frameColor = Qt::gray;
+        if (reg.isMainBackpack) {
+            // Ð•ÑÐ»Ð¸ Ð±Ð°Ð»Ð°Ð½Ñ Ð½Ð°Ñ€ÑƒÑˆÐµÐ½ â€” ÐºÑ€Ð°ÑÐ½Ñ‹Ð¹, ÐµÑÐ»Ð¸ Ð¾Ðº â€” Ð·ÐµÐ»ÐµÐ½Ñ‹Ð¹
+            frameColor = reg.logic->IsBalance() ? Qt::green : Qt::red;
+        }
+
+        painter->setPen(QPen(frameColor, 3));
+        painter->drawRect(reg.offsetX, reg.offsetY,
+            reg.widthCells * cellSize, reg.heightCells * cellSize);
     }
-    else {
-        // Ïåðåâåñ — ïðèâëåêàåì âíèìàíèå êðàñíîé ðàìêîé
-        painter->setPen(QPen(Qt::red, 3));
-    }
 
-    // Îòðèñîâûâàåì êîíòóð âîêðóã âñåãî ðþêçàêà
-    painter->drawRect(0, 0, backpack->GetWidth() * cellSize, backpack->GetLength() * cellSize);
+    // 4. Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ Ñ€Ð¸ÑÐ¾Ð²Ð°Ð»ÑŒÑ‰Ð¸Ðº Ð² Ð¸ÑÑ…Ð¾Ð´Ð½Ð¾Ðµ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ
+    painter->restore();
 }
-
 
 void BackpackView::UpdateView()
 {
-    scene->clear(); // Î÷èùàåì ñòàðûå ïðÿìîóãîëüíèêè ïåðåä ïåðåðèñîâêîé
-
-    for (const auto& item : backpack->GetItems()) {
-        if (item.startX < 0 || item.startY < 0) continue;
-
-        // Ñîçäàåì ýêçåìïëÿð íàøåãî êàñòîìíîãî êëàññà
-        InventoryItemGraphics* itemGraphics = new InventoryItemGraphics(item, cellSize, backpack, this);
-
-        // Äîáàâëÿåì åãî íà ñöåíó
-        scene->addItem(itemGraphics);
+    // 1. Ð—Ð°Ð¿Ð¾Ð¼Ð¸Ð½Ð°ÐµÐ¼ ID Ð¿Ñ€ÐµÐ´Ð¼ÐµÑ‚Ð°, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ ÑÐµÐ¹Ñ‡Ð°Ñ Ð²Ñ‹Ð±Ñ€Ð°Ð½ (Ð² Ñ„Ð¾ÐºÑƒÑÐµ)
+    int focusedID = -1;
+    if (scene->focusItem()) {
+        InventoryItemGraphics* currentFocus = static_cast<InventoryItemGraphics*>(scene->focusItem());
+        if (currentFocus) {
+            focusedID = currentFocus->GetItemID();
+        }
     }
+
+    scene->clear();
+
+    for (const auto& reg : regions) {
+        for (const auto& item : reg.logic->GetItems()) {
+            if (item.startX < 0 || item.startY < 0) continue;
+
+            InventoryItemGraphics* itemGraphics = new InventoryItemGraphics(item, cellSize, reg.logic, this, reg.offsetX, reg.offsetY);
+            scene->addItem(itemGraphics);
+
+            // 2. Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÐ¼ Ñ„Ð¾ÐºÑƒÑ Ð¿Ñ€ÐµÐ´Ð¼ÐµÑ‚Ñƒ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¼Ð¾Ð¶Ð½Ð¾ Ð±Ñ‹Ð»Ð¾ Ð¶Ð°Ñ‚ÑŒ 'R' Ð¿Ð¾Ð´Ñ€ÑÐ´!
+            if (item.ID == focusedID) {
+                itemGraphics->setFocus();
+            }
+        }
+    }
+
+    // ÐŸÑ€Ð¸Ð½ÑƒÐ´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ Ñ‡Ð¸ÑÑ‚Ð¸Ð¼ ÐºÑÑˆ Ñ„Ð¾Ð½Ð° (Ñ‚Ñ‹ ÑÑ‚Ð¾ ÑƒÐ¶Ðµ ÑÐ´ÐµÐ»Ð°Ð», Ð¾ÑÑ‚Ð°Ð²Ð»ÑÐµÐ¼)
+    scene->invalidate(scene->sceneRect(), QGraphicsScene::BackgroundLayer);
 }

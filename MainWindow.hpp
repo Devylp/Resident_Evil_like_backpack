@@ -2,7 +2,6 @@
 #include <QMainWindow>
 #include <QString>
 
-// Предварительное объявление классов
 class BackpackLogick;
 class BackpackView;
 
@@ -17,15 +16,11 @@ private slots:
     void onAutoSort();
 
 private:
-    // Метод для загрузки данных из JSON
     void loadFromJson(const QString& filePath);
 
-    // --- ЛОГИКА ---
-    BackpackLogick* mainLogic;  // Главный рюкзак
-    BackpackLogick* beltLogic;  // Пояс
-    BackpackLogick* handsLogic; // Руки
+    BackpackLogick* mainLogic;
+    BackpackLogick* beltLogic;
+    BackpackLogick* handsLogic;
 
-    // --- ОТОБРАЖЕНИЕ ---
-    // Пока сделаем один View для главного рюкзака, чтобы не усложнять окно прямо сейчас
-    BackpackView* mainView;
+    BackpackView* unifiedView; // Одно представление вместо трёх!
 };
