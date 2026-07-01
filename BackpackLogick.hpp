@@ -237,9 +237,6 @@ public:
 		bool balanced = std::abs(newc_x - Width / 2.0f) <= 0.1f * Width &&
 			std::abs(newc_y - Length / 2.0f) <= 0.1f * Length;
 
-		// ОТЛАДКА:
-		qDebug() << "Balance result:" << balanced << "for logic at" << this;
-
 		return balanced;
 	}
 

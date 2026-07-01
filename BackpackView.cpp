@@ -8,20 +8,23 @@
 #include <cmath>
 #include <QCoreApplication>
 #include <QTimer>
+#include <QFont>
 
 class InventoryItemGraphics : public QGraphicsRectItem {
 private:
     Item itemData;
     int cellSize;
-    BackpackLogick* sourceLogic; // Контейнер, откуда взят предмет
+    BackpackLogick* sourceLogic;
     BackpackView* parentView;
+    QString currentFontFamily = "Segoe UI";
+    int currentFontSize = 9;
+    QColor currentBgColor = QColor(240, 240, 240);
 
 public:
     InventoryItemGraphics(const Item& item, int size, BackpackLogick* sl, BackpackView* view, int regX, int regY)
         : itemData(item), cellSize(size), sourceLogic(sl), parentView(view)
     {
         setRect(0, 0, item.wth * cellSize, item.len * cellSize);
-        // Позиция на сцене = смещение контейнера + локальные координаты предмета
         setPos(regX + item.startX * cellSize, regY + item.startY * cellSize);
 
         QString exeDir = QCoreApplication::applicationDirPath();
@@ -29,12 +32,10 @@ public:
         QPixmap pixmap(fullTexturePath);
 
         if (!pixmap.isNull()) {
-            // 1. Сначала поворачиваем ИСХОДНУЮ картинку на нужный угол
             QTransform transform;
             transform.rotate(item.rotation * 90);
             QPixmap rotatedPixmap = pixmap.transformed(transform, Qt::SmoothTransformation);
 
-            // 2. Затем масштабируем УЖЕ ПОВЕРНУТУЮ картинку под текущие width и length предмета
             QPixmap scaledPixmap = rotatedPixmap.scaled(item.wth * cellSize, item.len * cellSize,
                 Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
@@ -42,7 +43,6 @@ public:
             setPen(QPen(Qt::transparent));
         }
         else {
-            // Для заглушек без текстур можно визуально ничего не крутить, просто менять размер
             QColor color = item.rotatable ? QColor(100, 150, 255, 200) : QColor(255, 100, 100, 200);
             setBrush(QBrush(color));
             setPen(QPen(Qt::black, 1));
@@ -55,7 +55,7 @@ public:
         setAcceptHoverEvents(false);
         setAcceptedMouseButtons(Qt::LeftButton | Qt::RightButton);
 
-        setZValue(1); // Предметы будут всегда поверх фона, но под всплывающими подсказками
+        setZValue(1);
     }
 
     int GetItemID() const { return itemData.ID; }
@@ -109,14 +109,14 @@ protected:
             }
         }
 
-        // БЕЗОПАСНЫЙ ВЫЗОВ ОБНОВЛЕНИЯ
         QTimer::singleShot(0, parentView, &BackpackView::UpdateView);
     }
 
     void keyPressEvent(QKeyEvent* event) override {
-        if (event->key() == Qt::Key_R) {
+        QString pressedChar = event->text().toLower();
+
+        if (pressedChar == "r" || pressedChar == "к") {
             if (sourceLogic->RotateItem(itemData.startX, itemData.startY)) {
-                // Здесь тоже безопасный вызов
                 QTimer::singleShot(0, parentView, &BackpackView::UpdateView);
             }
         }
@@ -126,40 +126,47 @@ protected:
     }
 };
 
-BackpackView::BackpackView(BackpackLogick* mainLog, BackpackLogick* beltLog, BackpackLogick* handsLog, QWidget* parent)
+
+BackpackView::BackpackView(BackpackLogick* mainLog, BackpackLogick* beltLog, BackpackLogick* handsLog, BackpackLogick* storageLog, QWidget* parent)
     : QGraphicsView(parent), cellSize(50)
 {
     scene = new QGraphicsScene(this);
     setScene(scene);
 
-    // Задаем фиксированную карту смещений для компактного монолитного интерфейса
-    regions.append({ handsLog, "В РУКАХ", 40, 130, 2, 2, false });          // Слева
-    regions.append({ mainLog, "ИНВЕНТАРЬ", 180, 40, 5, 6, true });          // По центру (5х6)
-    regions.append({ beltLog, "ПОЯСНЫЕ ПОДСУМКИ", 205, 380, 4, 1, false }); // Снизу горизонтально (4х1)
+    // Новая монолитная карта расположения с учетом Хранилища слева
+    // Параметры: { Логика, Название, ОффсетX, ОффсетY, Кол-во ячеек X, Кол-во ячеек Y, ФлагГлавногоРюкзака }
+    regions.append({ storageLog, "ХРАНИЛИЩЕ",         30,  50,  3, 8, false }); // Высокое хранилище (3х8)
+    regions.append({ handsLog,   "В РУКАХ",          220, 150,  2, 2, false }); // По центру чуть ниже (2х2)
+    regions.append({ mainLog,    "ИНВЕНТАРЬ",        360,  50,  5, 6, true });  // Основной рюкзак (5х6)
+    regions.append({ beltLog,    "ПОЯСНЫЕ ПОДСУМКИ", 385, 400,  4, 1, false }); // Под основным рюкзаком (4х1)
 
-    scene->setSceneRect(0, 0, 480, 460);
+    // Расширили экран под новые размеры (Ширина: 660, Высота: 500)
+    scene->setSceneRect(0, 0, 660, 500);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setMinimumSize(482, 462);
-    setBackgroundBrush(QColor(240, 240, 240)); // Легкий игровой серый фон
+    setMinimumSize(662, 502);
+    setBackgroundBrush(QColor(27, 4, 236));
     UpdateView();
 }
 
 void BackpackView::drawBackground(QPainter* painter, const QRectF& rect)
 {
-    // 1. Сохраняем состояние рисовальщика перед началом
     painter->save();
 
-    // Рисуем базовый фон QGraphicsView
     QGraphicsView::drawBackground(painter, rect);
     painter->setRenderHint(QPainter::Antialiasing);
 
     for (const auto& reg : regions)
     {
-        // 2. Сбрасываем Pen/Brush для каждого блока, чтобы настройки не "текли"
         painter->setBrush(Qt::NoBrush);
 
-        // Рисуем сетку
+        QColor textColor = (currentBgColor.lightness() < 128) ? Qt::white : Qt::black;
+        // --- ОТРИСОВКА НАДПИСЕЙ ---
+        painter->setPen(QPen(textColor, 1));
+        painter->setFont(QFont(currentFontFamily, currentFontSize, QFont::Bold));
+        painter->drawText(reg.offsetX, reg.offsetY - 10, reg.title);
+
+        // --- ОТРИСОВКА СЕТКИ ---
         painter->setPen(QPen(QColor(100, 100, 100, 50), 1));
         for (int i = 0; i <= reg.widthCells; ++i) {
             painter->drawLine(reg.offsetX + i * cellSize, reg.offsetY,
@@ -170,10 +177,9 @@ void BackpackView::drawBackground(QPainter* painter, const QRectF& rect)
                 reg.offsetX + reg.widthCells * cellSize, reg.offsetY + j * cellSize);
         }
 
-        // 3. Рисуем рамку
+        // --- ОТРИСОВКА РАМОК ---
         QColor frameColor = Qt::gray;
         if (reg.isMainBackpack) {
-            // Если баланс нарушен — красный, если ок — зеленый
             frameColor = reg.logic->IsBalance() ? Qt::green : Qt::red;
         }
 
@@ -182,13 +188,11 @@ void BackpackView::drawBackground(QPainter* painter, const QRectF& rect)
             reg.widthCells * cellSize, reg.heightCells * cellSize);
     }
 
-    // 4. Возвращаем рисовальщик в исходное состояние
     painter->restore();
 }
 
 void BackpackView::UpdateView()
 {
-    // 1. Запоминаем ID предмета, который сейчас выбран (в фокусе)
     int focusedID = -1;
     if (scene->focusItem()) {
         InventoryItemGraphics* currentFocus = static_cast<InventoryItemGraphics*>(scene->focusItem());
@@ -206,13 +210,21 @@ void BackpackView::UpdateView()
             InventoryItemGraphics* itemGraphics = new InventoryItemGraphics(item, cellSize, reg.logic, this, reg.offsetX, reg.offsetY);
             scene->addItem(itemGraphics);
 
-            // 2. Возвращаем фокус предмету, чтобы можно было жать 'R' подряд!
             if (item.ID == focusedID) {
                 itemGraphics->setFocus();
             }
         }
     }
 
-    // Принудительно чистим кэш фона (ты это уже сделал, оставляем)
     scene->invalidate(scene->sceneRect(), QGraphicsScene::BackgroundLayer);
+}
+
+void BackpackView::ApplyUiSettings(const QString& fontFamily, int fontSize, const QColor& bgColor)
+{
+    currentFontFamily = fontFamily;
+    currentFontSize = fontSize;
+    currentBgColor = bgColor;
+
+    // Сразу обновляем фон самого представления
+    setBackgroundBrush(currentBgColor);
 }

@@ -24,9 +24,11 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="SettingsDialog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackpackLogick.hpp" />
+    <QtMoc Include="SettingsDialog.hpp" />
     <QtMoc Include="BackpackView.hpp" />
     <ClInclude Include="Item.hpp" />
     <QtMoc Include="MainWindow.hpp" />
